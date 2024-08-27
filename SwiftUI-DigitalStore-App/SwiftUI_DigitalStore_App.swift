@@ -8,10 +8,10 @@
 import SwiftUI
 
 @main
-struct SwiftUI_DigitalStore_AppApp: App {
+struct SwiftUI_DigitalStore_App: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            PromotionalCarouselCard()
         }
     }
 }
