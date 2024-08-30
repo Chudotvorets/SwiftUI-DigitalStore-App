@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductModel:  Hashable  {
+struct ProductModel:  Hashable, Decodable {
     var id: Int
     var title: String
     var price: Double
@@ -35,14 +35,14 @@ extension ProductModel {
 
 struct Rating: Codable, Hashable {
     let rate: Double
-    // to remplace with let count when the api bug is fixed https://github.com/keikaavousi/fake-store-api/issues/31
+    // to remplace with let count when the api bug is fixed
     // let count: Int
     var manualCount: Int = Int.random(in: 0...500)
 }
 
-//extension ProductModel {
-//    static var sampleProducts: [ProductModel] {
-//        let response: [ProductModel]? = try? Bundle.main.loadAndDecodeJSON(filename: "products")
-//        return response ?? [ProductModel(id: 1, title: "noproduct", price: 10.5, description: "noproduct", category: "noproduct", image: "noproduct", rating: Rating(rate: 10.0))]
-//    }
-//}
+extension ProductModel {
+    static var sampleProducts: [ProductModel] {
+        let response: [ProductModel]? = try? Bundle.main.loadAndDecodeJSON(filename: "Promotional")
+        return response ?? [ProductModel(id: 1, title: "noproduct", price: 10.5, description: "noproduct", category: "noproduct", image: "noproduct", rating: Rating(rate: 10.0))]
+    }
+}

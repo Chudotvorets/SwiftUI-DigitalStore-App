@@ -7,40 +7,52 @@
 
 import Foundation
 
-class ProductListViewObject: ObservableObject {
+class  ProductsListObject: ObservableObject {
     @Published var products: [ProductModel]?
-//    @Publisher var isLOading: Bool
-//    @Publisher var error: NSError?
+    @Published var isLoading = false
+    @Published var error: NSError?
     
-    var productInjection: [ProductModel] {
-        var model: [ProductModel] = []
-        if let products = self.products {
-            if products.count >= 6 {
-                model = products[0...5].shuffled()
+    var featuredProduct : [ProductModel] {
+        var fProducts: [ProductModel] = []
+        if let products = self.products  {
+            if products.count >= 18 {
+            fProducts = products[0...18].shuffled()
             }
         }
-        return model
+        return fProducts
     }
-//    func loadProducts(with url: ProductListEndpoint){
-//        self.products = nil
-//        DispatchQueue.main.async {
-//            self.isLoading = true
-//        }
-//        productListServices.fetchProducts(from: url) { (result) in
-//            DispatchQueue.main.async {
-//                self.isLoading = true
-//            }
-//            switch result {
-//            case .success(let response):
-//                DispatchQueue.main.async {
-//                    self.products = response
-//                    self.isLoading = false
-//                }
-//            case .failure(let error):
-//                DispatchQueue.main.async {
-//                    self.error = error as NSError
-//                    print(error.localizedDescription)
-//                }
-//            }
-//        }
-   }
+    
+    /// Getting the api services singleton
+    private let productListServices: APIServicesProtocol
+    
+    init(productServices: APIServicesProtocol = APIServices.shared) {
+        self.productListServices = productServices
+    }
+    
+    /// Call the api services to get the product needed
+    /// - Parameter url: category of products
+    func loadProducts(with url: ProductListEndpoint){
+        self.products = nil
+        DispatchQueue.main.async {
+            self.isLoading = true
+        }
+        productListServices.fetchProducts(from: url) { (result) in
+            DispatchQueue.main.async {
+                self.isLoading = true
+            }
+            switch result {
+            case .success(let response):
+                DispatchQueue.main.async {
+                    self.products = response
+                    self.isLoading = false
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self.error = error as NSError
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+}
+

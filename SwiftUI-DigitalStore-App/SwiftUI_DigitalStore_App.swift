@@ -11,7 +11,7 @@ import SwiftUI
 struct SwiftUI_DigitalStore_App: App {
     var body: some Scene {
         WindowGroup {
-            PromotionalCarouselCard()
+          HomeView()
         }
     }
 }
